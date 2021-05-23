@@ -20,6 +20,12 @@
         />
       </div>
       <div class="tabs-wrapper">
+        <div
+          v-if="fiveDaysWeatherFetchingStatus === 'loading'"
+          class="other-cities-status"
+        >
+          <i>Retrieving...</i>
+        </div>
         <h2>Other Cities</h2>
         <div class="tabs">
           <ul>
@@ -94,18 +100,19 @@ function retrieveCurrentLocationWeather() {
 }
 
 async function retrieveCity5DayWeather(cityId) {
-  // this.$store.commit('currentFetchStatus', 'loading')
+  this.$store.commit('receiveCityDaysWeatherFetchStatus', 'loading')
   try {
     const cityWeather = await this.$axios.$get(
       `http://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${API_KEY}`
     )
-    this.$store.commit('receiveCitiesFiveDaysWeather', {
+    cityWeather.last_fetch_dt = new Date().getTime()
+    this.$store.commit('receiveCityFiveDaysWeather', {
       cityId,
       cityFiveDaysWeather: cityWeather,
     })
-    // this.$store.commit('currentFetchStatus', 'succeded')
+    this.$store.commit('receiveCityDaysWeatherFetchStatus', 'succeded')
   } catch {
-    // this.$store.commit('currentFetchStatus', 'failed')
+    this.$store.commit('receiveCityDaysWeatherFetchStatus', 'failed')
   }
 }
 
@@ -154,10 +161,13 @@ export default {
       const index = this.$store.state.selectedTabIndex
       const cityId = this.$store.state.selectedCities[index]
       const cityWeather = process5DaysWeather(
-        this.$store.state.citiesFiveDaysWeather[cityId]
+        this.$store.state.citiesFiveDaysWeather.data[cityId]
       )
-
       return cityWeather
+    },
+    fiveDaysWeatherFetchingStatus() {
+      const status = this.$store.state.citiesFiveDaysWeather.status
+      return status
     },
     selectedCities() {
       const cityById = this.$store.state.cityById
@@ -184,7 +194,7 @@ export default {
     }
     const index = this.$store.state.selectedTabIndex
     const cityId = this.$store.state.selectedCities[index]
-    if (cityId && !this.$store.state.citiesFiveDaysWeather[cityId]) {
+    if (cityId && !this.$store.state.citiesFiveDaysWeather.data[cityId]) {
       await retrieveCity5DayWeather.bind(this)(cityId)
     }
   },
@@ -199,7 +209,11 @@ export default {
         this.$store.commit('updateSelectedTabIndex', selectedCities - 1)
       } catch {}
     },
-    onCityTabClick(e, index) {
+    async onCityTabClick(e, index) {
+      const cityId = this.$store.state.selectedCities[index]
+      if (cityId && !this.$store.state.citiesFiveDaysWeather.data[cityId]) {
+        await retrieveCity5DayWeather.bind(this)(cityId)
+      }
       this.$store.commit('updateSelectedTabIndex', index)
     },
   },
@@ -252,7 +266,14 @@ export default {
   width: 100%;
 }
 
+.other-cities-status {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+}
+
 .tabs-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: stretch;

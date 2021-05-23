@@ -12,7 +12,7 @@
         class="day-weather-icon"
         tabindex="0"
         alt="weather icon"
-        :src="'http://openweathermap.org/img/wn/' + iconId + '@2x.png'"
+        :src="getIcon"
       />
     </div>
     <div
@@ -62,8 +62,11 @@ export default {
     dayStr() {
       return DAY[this.day] || NA_STR
     },
-    iconId() {
-      return this.icon
+    getIcon() {
+      // Temporary tightly coupled to openweathermap images
+      return (
+        this.icon && 'http://openweathermap.org/img/wn/' + this.icon + '@2x.png'
+      )
     },
     maxTempCelcius() {
       if (this.maxTemp == null) return NA_STR

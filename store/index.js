@@ -13,7 +13,10 @@ export const state = () => ({
       weather: [],
     },
   },
-  citiesFiveDaysWeather: {},
+  citiesFiveDaysWeather: {
+    status: 'idle',
+    data: {},
+  },
   // // update to id
   selectedTabIndex: 0,
   selectedCities: [1733046],
@@ -27,9 +30,12 @@ export const mutations = {
   current(state, current) {
     state.current.data = current
   },
-  receiveCitiesFiveDaysWeather(state, { cityId, cityFiveDaysWeather }) {
-    state.citiesFiveDaysWeather = {
-      ...state.citiesFiveDaysWeather,
+  receiveCityDaysWeatherFetchStatus(state, status) {
+    state.citiesFiveDaysWeather.status = status
+  },
+  receiveCityFiveDaysWeather(state, { cityId, cityFiveDaysWeather }) {
+    state.citiesFiveDaysWeather.data = {
+      ...state.citiesFiveDaysWeather.data,
       [cityId]: cityFiveDaysWeather,
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="weather-card-sm" tabindex="0">
-    <img class="weather-card-sm-icon" :src="getIcon" />
+    <img class="weather-card-sm-icon" alt="weather icon" :src="getIcon" />
     <div class="weather-card-sm-temp">{{ temperatureCelcius }}&#8451;</div>
     <div class="weather-card-sm-time">{{ timeAMPM }}</div>
   </div>
@@ -25,6 +25,7 @@ export default {
   },
   computed: {
     getIcon() {
+      // Temporary tightly coupled to openweathermap images
       return (
         this.icon && 'http://openweathermap.org/img/wn/' + this.icon + '@2x.png'
       )

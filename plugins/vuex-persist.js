@@ -5,7 +5,9 @@ export default ({ store }) => {
     key: 'vuex',
     storage: window.localStorage,
     reducer: (state) => ({
-      citiesFiveDaysWeather: state.citiesFiveDaysWeather,
+      // uncomment to persist retrieved city's 5 days weather
+      // citiesFiveDaysWeather: state.citiesFiveDaysWeather,
+      // persist user selected cities
       selectedCities: state.selectedCities,
     }),
   }).plugin(store)
