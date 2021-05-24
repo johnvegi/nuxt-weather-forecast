@@ -31,10 +31,12 @@ The list of cities are retrieved from [simplemaps](https://simplemaps.com/data/w
 Preparation:
 1. You'll need API Key to run api and retrieve weather forecast data. [Sign Up](https://openweathermap.org/) and get an API Key before you start.
 
-Important note:
+Important note / Improvements:
 1. No proper error handling done, for any API call, Geolocation API and etc.
-2. Temperature only dispaly in (°C) Celcius format now.
-3. CORS issue with Firefox and Safari, do use **Chrome** browser to test this.
+2. No data valiation for pesisted data.
+3. Temperature only dispaly in (°C) Celcius format now.
+4. City tab changing, then retrieve 5 days weather forecast data potentially have race condition.
+4. CORS issue with Firefox and Safari, do use **Chrome** browser to test this.
 
 <hr>
 

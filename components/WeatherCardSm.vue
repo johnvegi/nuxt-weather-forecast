@@ -7,7 +7,6 @@
 </template>
 
 <script>
-const KELVIN_CELCIUS = -273.15
 export default {
   props: {
     icon: {
@@ -31,7 +30,7 @@ export default {
       )
     },
     temperatureCelcius() {
-      return (this.temperature + KELVIN_CELCIUS).toFixed(1)
+      return (this.temperature + this.$constants.KELVIN_CELCIUS).toFixed(1)
     },
     timeAMPM() {
       const hour = new Date(this.time).getHours()

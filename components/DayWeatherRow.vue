@@ -27,18 +27,6 @@
 </template>
 
 <script>
-const DAY = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-]
-const KELVIN_CELCIUS = -273.15
-const NA_STR = 'N/A'
-
 export default {
   props: {
     day: {
@@ -60,7 +48,7 @@ export default {
   },
   computed: {
     dayStr() {
-      return DAY[this.day] || NA_STR
+      return this.$constants.DAY[this.day] || this.$constants.NA_STR
     },
     getIcon() {
       // Temporary tightly coupled to openweathermap images
@@ -69,15 +57,15 @@ export default {
       )
     },
     maxTempCelcius() {
-      if (this.maxTemp == null) return NA_STR
+      if (this.maxTemp == null) return this.$constants.NA_STR
       return this.maxTemp
-        ? (this.maxTemp + KELVIN_CELCIUS).toFixed(1)
+        ? (this.maxTemp + this.$constants.KELVIN_CELCIUS).toFixed(1)
         : this.maxTemp
     },
     minTempCelcius() {
-      if (this.minTemp == null) return NA_STR
+      if (this.minTemp == null) return this.$constants.NA_STR
       return this.minTemp
-        ? (this.minTemp + KELVIN_CELCIUS).toFixed(1)
+        ? (this.minTemp + this.$constants.KELVIN_CELCIUS).toFixed(1)
         : this.minTemp
     },
   },

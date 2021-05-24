@@ -30,9 +30,6 @@
 </template>
 
 <script>
-const KELVIN_CELCIUS = -273.15
-const NA_STR = 'N/A'
-
 export default {
   props: {
     icon: {
@@ -66,12 +63,14 @@ export default {
   },
   computed: {
     temperatureCelcius() {
-      if (this.temperature == null) return NA_STR
-      return (this.temperature + KELVIN_CELCIUS).toFixed(1)
+      if (this.temperature == null) return this.$constants.NA_STR
+      return (this.temperature + this.$constants.KELVIN_CELCIUS).toFixed(1)
     },
     temperatureFeelsLikeCelcius() {
-      if (this.temperatureFeelsLike == null) return NA_STR
-      return (this.temperatureFeelsLike + KELVIN_CELCIUS).toFixed(1)
+      if (this.temperatureFeelsLike == null) return this.$constants.NA_STR
+      return (
+        this.temperatureFeelsLike + this.$constants.KELVIN_CELCIUS
+      ).toFixed(1)
     },
   },
 }

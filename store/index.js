@@ -1,4 +1,4 @@
-import cities from '~/assets/cities'
+import cities from '~/lists/cities'
 
 const cityById = cities.reduce(
   (a, c) => ({ ...a, [c.open_weather_id || c.id]: c }),
