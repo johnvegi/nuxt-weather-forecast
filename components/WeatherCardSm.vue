@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { parseISO } from 'date-fns'
 export default {
   props: {
     icon: {
@@ -33,7 +34,7 @@ export default {
       return (this.temperature + this.$constants.KELVIN_CELCIUS).toFixed(1)
     },
     timeAMPM() {
-      const hour = new Date(this.time).getHours()
+      const hour = parseISO(this.time).getHours()
       return hour < 12
         ? hour === 0
           ? '12am'

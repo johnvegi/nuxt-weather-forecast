@@ -9,6 +9,7 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
+      { 'http-equiv': 'Access-Control-Allow-Origin', content: '*' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -46,6 +47,7 @@ export default {
   build: {},
 
   env: {
-    OPENWEATHER_APIKEY: process.env.OPENWEATHER_APIKEY,
+    OPENWEATHER_API_KEY: process.env.OPENWEATHER_API_KEY,
+    OPENWEATHER_API_PATH: process.env.OPENWEATHER_API_PATH,
   },
 }

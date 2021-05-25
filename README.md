@@ -32,11 +32,13 @@ Preparation:
 1. You'll need API Key to run api and retrieve weather forecast data. [Sign Up](https://openweathermap.org/) and get an API Key before you start.
 
 Important note / Improvements:
-1. No proper error handling done, for any API call, Geolocation API and etc.
+1. No proper error handling done, for any API call, Geolocation API and etc. So, assumption is to always allow location when browser prompted.
 2. No data valiation for pesisted data.
 3. Temperature only dispaly in (°C) Celcius format now.
 4. City tab changing, then retrieve 5 days weather forecast data potentially have race condition.
-4. CORS issue with Firefox and Safari, do use **Chrome** browser to test this.
+5. ~~CORS issue with Firefox and Safari, do use **Chrome** browser to test this.~~ Updated to use fetch API. CORS issue appearing when using axios, it is due to preflight issue with OPTIONS method being run. So, By using fetch API, it means IE browser is not supported. [Browser compatibility](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API#browser_compatibility).
+6. Geolocation API is failing in Safari due to insecure connection (http://localhost). Other cities feature are working fine.
+7. This project is not tested with IE browser.
 
 <hr>
 
@@ -53,10 +55,11 @@ $ yarn install
 
 ### Configuration
 
-Create a `./.env` and setup API Key before going to next step
+Create a `./.env` and setup API key and path before going to next step
 
 ```
-OPENWEATHER_APIKEY=<API_KEY>
+OPENWEATHER_API_KEY=<API_KEY>
+OPENWEATHER_API_PATH=http://api.openweathermap.org/data/2.5/
 ```
 
 ### Serve with hot reload at localhost:3000

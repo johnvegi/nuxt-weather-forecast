@@ -1,5 +1,10 @@
 import VuexPersistence from 'vuex-persist'
 
+/**
+ * console warning - Mismatching childNodes vs. VNodes:
+ * It is due to the mismatch of store value, since we persisted 'selectedCities' value,
+ * which is different comparing server vs cliet
+ */
 export default ({ store }) => {
   new VuexPersistence({
     key: 'vuex',

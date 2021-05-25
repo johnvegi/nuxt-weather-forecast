@@ -20,7 +20,8 @@
 </template>
 
 <script>
-const API_KEY = process.env.OPENWEATHER_APIKEY
+const API_KEY = process.env.OPENWEATHER_API_KEY
+const API_PATH = process.env.OPENWEATHER_API_PATH
 function getCurrenLocation(cb = () => {}) {
   if (!navigator.geolocation) {
     throw new Error('navigator.geolocation not available')
@@ -40,21 +41,21 @@ function getCurrenLocation(cb = () => {}) {
 
 function retrieveCurrentLocationWeather() {
   this.$store.commit('currentFetchStatus', 'loading')
-  getCurrenLocation(async (lat, long) => {
-    try {
+  try {
+    getCurrenLocation(async (lat, long) => {
       if (lat && long) {
-        const current = await this.$axios.$get(
-          `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${API_KEY}`
-        )
+        const current = await fetch(
+          `${API_PATH}weather?lat=${lat}&lon=${long}&appid=${API_KEY}`
+        ).then((response) => response.json())
         this.$store.commit('current', current)
         this.$store.commit('currentFetchStatus', 'succeded')
         return
       }
       this.$store.commit('currentFetchStatus', 'failed')
-    } catch {
-      this.$store.commit('currentFetchStatus', 'failed')
-    }
-  })
+    })
+  } catch {
+    this.$store.commit('currentFetchStatus', 'failed')
+  }
 }
 
 export default {
@@ -72,6 +73,7 @@ export default {
   mounted() {
     // don't call api if there's cached data
     if (!this.$store.state.current?.data.name) {
+      // can't be done through fetch hook, since it's based on browser's Geolocation API
       retrieveCurrentLocationWeather.bind(this)()
     }
   },
