@@ -19,13 +19,15 @@
 </template>
 
 <script>
-const API_KEY = process.env.OPENWEATHER_APIKEY
+import { parseISO } from 'date-fns'
+const API_KEY = process.env.OPENWEATHER_API_KEY
+const API_PATH = process.env.OPENWEATHER_API_PATH
 async function retrieveCity5DayWeather(cityId) {
   this.$store.commit('receiveCityDaysWeatherFetchStatus', 'loading')
   try {
-    const cityWeather = await this.$axios.$get(
-      `http://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${API_KEY}`
-    )
+    const cityWeather = await fetch(
+      `${API_PATH}forecast?id=${cityId}&appid=${API_KEY}`
+    ).then((response) => response.json())
     cityWeather.last_fetch_dt = new Date().getTime()
     this.$store.commit('receiveCityFiveDaysWeather', {
       cityId,
@@ -42,7 +44,7 @@ function process5DaysWeather(data) {
   const map = new Map()
 
   data.list.forEach((w) => {
-    const date = new Date(w.dt_txt)
+    const date = parseISO(w.dt_txt)
     const day = date.getDay()
     let result = map.get(day) || { threeHourly: [] }
     const step = {
@@ -68,6 +70,17 @@ function process5DaysWeather(data) {
 }
 
 export default {
+  // Running through fetch hook for now, for server rendered UI.
+  // This might not be applicable in the future, assumed feature is depending on local storage value,
+  // so it might not be always rendering Kuala Lumpur first in the future.
+  async fetch() {
+    // don't call api if there's cached data - if persisted using vuex-persist
+    const index = this.$store.state.selectedTabIndex
+    const cityId = this.$store.state.selectedCities[index]
+    if (cityId && !this.$store.state.citiesFiveDaysWeather.data[cityId]) {
+      await retrieveCity5DayWeather.bind(this)(cityId)
+    }
+  },
   computed: {
     fiveDaysWeather() {
       const index = this.$store.state.selectedTabIndex
@@ -98,14 +111,6 @@ export default {
     viewingCityIndex() {
       return this.$store.state.selectedTabIndex
     },
-  },
-  async mounted() {
-    // don't call api if there's cached data
-    const index = this.$store.state.selectedTabIndex
-    const cityId = this.$store.state.selectedCities[index]
-    if (cityId && !this.$store.state.citiesFiveDaysWeather.data[cityId]) {
-      await retrieveCity5DayWeather.bind(this)(cityId)
-    }
   },
   methods: {
     async addCityClick() {
