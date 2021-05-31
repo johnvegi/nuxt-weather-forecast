@@ -6,6 +6,7 @@ const cityById = cities.reduce(
 )
 
 export const state = () => ({
+  isFahrenheit: false,
   current: {
     status: 'idle',
     data: {
@@ -24,6 +25,9 @@ export const state = () => ({
 })
 
 export const mutations = {
+  toggleTemperatureUnit(state) {
+    state.isFahrenheit = !state.isFahrenheit
+  },
   currentFetchStatus(state, status) {
     state.current.status = status
   },

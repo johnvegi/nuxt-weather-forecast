@@ -20,13 +20,18 @@
       tabindex="0"
       aria-label="max and min temperature"
     >
-      <div class="day-weather-temp-max">{{ maxTempCelcius }}&#8451;</div>
-      <div class="day-weather-temp-min">{{ minTempCelcius }}&#8451;</div>
+      <div class="day-weather-temp-max">
+        {{ maxTempCelcius }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+      </div>
+      <div class="day-weather-temp-min">
+        {{ minTempCelcius }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import processTemperature from '~/utils/processTemperature'
 export default {
   props: {
     day: {
@@ -45,6 +50,10 @@ export default {
       type: Number,
       default: null,
     },
+    isFahrenheit: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     dayStr() {
@@ -58,15 +67,11 @@ export default {
     },
     maxTempCelcius() {
       if (this.maxTemp == null) return this.$constants.NA_STR
-      return this.maxTemp
-        ? (this.maxTemp + this.$constants.KELVIN_CELCIUS).toFixed(1)
-        : this.maxTemp
+      return processTemperature(this.maxTemp, this.isFahrenheit)
     },
     minTempCelcius() {
       if (this.minTemp == null) return this.$constants.NA_STR
-      return this.minTemp
-        ? (this.minTemp + this.$constants.KELVIN_CELCIUS).toFixed(1)
-        : this.minTemp
+      return processTemperature(this.minTemp, this.isFahrenheit)
     },
   },
 }

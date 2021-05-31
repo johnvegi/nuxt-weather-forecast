@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <TemperatureUnit />
     <div class="weather">
       <WeatherCardWrapper />
       <OtherCities />

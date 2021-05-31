@@ -15,6 +15,7 @@
       :temperature-feels-like="current.main.feels_like"
       :humidity="current.main.humidity"
       :pressure="current.main.pressure"
+      :is-fahrenheit="isFahrenheit"
     />
   </div>
 </template>
@@ -60,6 +61,9 @@ function retrieveCurrentLocationWeather() {
 
 export default {
   computed: {
+    isFahrenheit() {
+      return this.$store.state.isFahrenheit
+    },
     current() {
       return this.$store.state.current?.data
     },

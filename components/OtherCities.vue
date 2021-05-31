@@ -14,7 +14,10 @@
       :on-tab-click="onCityTabClick"
       :on-add-tab-click="addCityClick"
     />
-    <WeatherCardCity5Days :city-weather="fiveDaysWeather" />
+    <WeatherCardCity5Days
+      :city-weather="fiveDaysWeather"
+      :is-fahrenheit="isFahrenheit"
+    />
   </div>
 </template>
 
@@ -82,6 +85,9 @@ export default {
     }
   },
   computed: {
+    isFahrenheit() {
+      return this.$store.state.isFahrenheit
+    },
     fiveDaysWeather() {
       const index = this.$store.state.selectedTabIndex
       const cityId = this.$store.state.selectedCities[index]
