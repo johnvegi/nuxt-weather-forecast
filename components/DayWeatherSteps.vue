@@ -6,6 +6,7 @@
       :icon="weather.icon"
       :temperature="weather.temp"
       :time="weather.time"
+      :is-fahrenheit="isFahrenheit"
     />
   </div>
 </template>
@@ -18,6 +19,10 @@ export default {
       default: () => {
         return []
       },
+    },
+    isFahrenheit: {
+      type: Boolean,
+      default: false,
     },
   },
 }

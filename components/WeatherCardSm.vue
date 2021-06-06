@@ -1,13 +1,16 @@
 <template>
   <div class="weather-card-sm" tabindex="0">
     <img class="weather-card-sm-icon" alt="weather icon" :src="getIcon" />
-    <div class="weather-card-sm-temp">{{ temperatureCelcius }}&#8451;</div>
+    <div class="weather-card-sm-temp">
+      {{ processedTemp }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+    </div>
     <div class="weather-card-sm-time">{{ timeAMPM }}</div>
   </div>
 </template>
 
 <script>
 import { parseISO } from 'date-fns'
+import processTemperature from '~/utils/processTemperature'
 export default {
   props: {
     icon: {
@@ -22,6 +25,10 @@ export default {
       type: String,
       default: null,
     },
+    isFahrenheit: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     getIcon() {
@@ -30,8 +37,9 @@ export default {
         this.icon && 'http://openweathermap.org/img/wn/' + this.icon + '@2x.png'
       )
     },
-    temperatureCelcius() {
-      return (this.temperature + this.$constants.KELVIN_CELCIUS).toFixed(1)
+    processedTemp() {
+      if (this.temperature == null) return this.$constants.NA_STR
+      return processTemperature(this.temperature, this.isFahrenheit)
     },
     timeAMPM() {
       const hour = parseISO(this.time).getHours()

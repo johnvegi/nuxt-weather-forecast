@@ -10,9 +10,13 @@
         :icon="weather.icon"
         :max-temp="weather.maxTemp"
         :min-temp="weather.minTemp"
+        :is-fahrenheit="isFahrenheit"
       />
       <div class="overflow-scroll">
-        <DayWeatherSteps :weathers="weather.threeHourly" />
+        <DayWeatherSteps
+          :weathers="weather.threeHourly"
+          :is-fahrenheit="isFahrenheit"
+        />
       </div>
     </div>
   </div>
@@ -26,6 +30,10 @@ export default {
       default() {
         return []
       },
+    },
+    isFahrenheit: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

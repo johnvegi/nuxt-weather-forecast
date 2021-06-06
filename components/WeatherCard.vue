@@ -9,13 +9,17 @@
         <div class="weather-desc">
           {{ weather }}
         </div>
-        <div class="weather-temp">{{ temperatureCelcius }}&#8451;</div>
+        <div class="weather-temp">
+          {{ processedTemp }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+        </div>
       </div>
     </div>
     <div class="weather-details-2">
       <div class="weather-details-sm">
         <label><strong>Feels Like</strong></label>
-        <div>{{ temperatureFeelsLikeCelcius }}&#8451;</div>
+        <div>
+          {{ processedTempFeelsLike }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+        </div>
       </div>
       <div class="weather-details-sm">
         <label><strong>Humidity</strong></label>
@@ -30,6 +34,7 @@
 </template>
 
 <script>
+import processTemperature from '~/utils/processTemperature'
 export default {
   props: {
     icon: {
@@ -60,17 +65,19 @@ export default {
       type: Number,
       default: null,
     },
+    isFahrenheit: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
-    temperatureCelcius() {
+    processedTemp() {
       if (this.temperature == null) return this.$constants.NA_STR
-      return (this.temperature + this.$constants.KELVIN_CELCIUS).toFixed(1)
+      return processTemperature(this.temperature, this.isFahrenheit)
     },
-    temperatureFeelsLikeCelcius() {
+    processedTempFeelsLike() {
       if (this.temperatureFeelsLike == null) return this.$constants.NA_STR
-      return (
-        this.temperatureFeelsLike + this.$constants.KELVIN_CELCIUS
-      ).toFixed(1)
+      return processTemperature(this.temperatureFeelsLike, this.isFahrenheit)
     },
   },
 }
