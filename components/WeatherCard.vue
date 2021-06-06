@@ -10,7 +10,7 @@
           {{ weather }}
         </div>
         <div class="weather-temp">
-          {{ temperatureCelcius }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+          {{ processedTemp }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
         </div>
       </div>
     </div>
@@ -18,8 +18,7 @@
       <div class="weather-details-sm">
         <label><strong>Feels Like</strong></label>
         <div>
-          {{ temperatureFeelsLikeCelcius
-          }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+          {{ processedTempFeelsLike }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
         </div>
       </div>
       <div class="weather-details-sm">
@@ -72,11 +71,11 @@ export default {
     },
   },
   computed: {
-    temperatureCelcius() {
+    processedTemp() {
       if (this.temperature == null) return this.$constants.NA_STR
       return processTemperature(this.temperature, this.isFahrenheit)
     },
-    temperatureFeelsLikeCelcius() {
+    processedTempFeelsLike() {
       if (this.temperatureFeelsLike == null) return this.$constants.NA_STR
       return processTemperature(this.temperatureFeelsLike, this.isFahrenheit)
     },

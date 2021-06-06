@@ -21,10 +21,10 @@
       aria-label="max and min temperature"
     >
       <div class="day-weather-temp-max">
-        {{ maxTempCelcius }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+        {{ maxProcessedTemp }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
       </div>
       <div class="day-weather-temp-min">
-        {{ minTempCelcius }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+        {{ minProcessedTemp }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
       </div>
     </div>
   </div>
@@ -65,11 +65,11 @@ export default {
         this.icon && 'http://openweathermap.org/img/wn/' + this.icon + '@2x.png'
       )
     },
-    maxTempCelcius() {
+    maxProcessedTemp() {
       if (this.maxTemp == null) return this.$constants.NA_STR
       return processTemperature(this.maxTemp, this.isFahrenheit)
     },
-    minTempCelcius() {
+    minProcessedTemp() {
       if (this.minTemp == null) return this.$constants.NA_STR
       return processTemperature(this.minTemp, this.isFahrenheit)
     },

@@ -2,7 +2,7 @@
   <div class="weather-card-sm" tabindex="0">
     <img class="weather-card-sm-icon" alt="weather icon" :src="getIcon" />
     <div class="weather-card-sm-temp">
-      {{ temperatureCelcius }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
+      {{ processedTemp }}{{ isFahrenheit ? '&#8457;' : '&#8451;' }}
     </div>
     <div class="weather-card-sm-time">{{ timeAMPM }}</div>
   </div>
@@ -37,7 +37,7 @@ export default {
         this.icon && 'http://openweathermap.org/img/wn/' + this.icon + '@2x.png'
       )
     },
-    temperatureCelcius() {
+    processedTemp() {
       if (this.temperature == null) return this.$constants.NA_STR
       return processTemperature(this.temperature, this.isFahrenheit)
     },
