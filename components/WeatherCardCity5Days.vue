@@ -12,7 +12,7 @@
         :min-temp="weather.minTemp"
         :is-fahrenheit="isFahrenheit"
       />
-      <div class="overflow-scroll">
+      <div class="horizontal-scroll">
         <DayWeatherSteps
           :weathers="weather.threeHourly"
           :is-fahrenheit="isFahrenheit"
@@ -81,8 +81,9 @@ export default {
   opacity: 1;
 }
 
-.day-weather-wrapper .overflow-scroll {
-  overflow-y: scroll;
+.day-weather-wrapper .horizontal-scroll {
+  overflow-x: auto;
   max-width: 100%;
+  padding-bottom: 12px;
 }
 </style>
